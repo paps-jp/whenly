@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 主催者(ログインあり/アカウントなしで始めたゲストの両方をここで表現する)
+model User {
+  id           String       @id @default(cuid())
+  email        String?      @unique
+  passwordHash String?
+  name         String?
+  isGuest      Boolean      @default(false)
+  createdAt    DateTime     @default(now())
+  events       Event[]
+  memberships  Membership[]
+  passwordResets PasswordResetToken[]
+}
+
+// 参加者(ログインあり/ゲストの両方をここで表現する)
+model Member {
+  id            String   @id @default(cuid())
+  email         String?  @unique
+  passwordHash  String?
+  name          String?
+  isGuest       Boolean  @default(false)
+  calendarToken String   @unique
+  createdAt     DateTime @default(now())
+
+  memberships Membership[]
+  responses   VolunteerResponse[]
+  passwordResets PasswordResetToken[]
+}
+
+// Member <-> User の多対多 + 承認ステータス(requireLogin=trueのイベントでのみ使用)
+model Membership {
+  id        String   @id @default(cuid())
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId  String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  status    String   @default("PENDING") // "PENDING" | "APPROVED" | "REJECTED"
+  createdAt DateTime @default(now())
+
+  @@unique([memberId, userId])
+}
+
+// イベントリスト(例: 「アウトリーチ」)。複数の日付(EventDay)をまとめる入れ物
+model Event {
+  id           String   @id @default(cuid())
+  title        String
+  comment      String?
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  shareToken   String   @unique
+  requireLogin Boolean  @default(true)
+  showParticipantNames Boolean @default(false)
+  allowMultipleAnswers Boolean @default(false)
+  allowUrlEdit Boolean @default(true)
+  createdAt    DateTime @default(now())
+
+  days    EventDay[]
+  options ResponseOption[]
+}
+
+// 回答の選択肢(可変個。初期値は○/×/△の3件だが、1件〜自由に増減できる)
+model ResponseOption {
+  id        String   @id @default(cuid())
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId   String
+  label     String
+  order     Int
+  createdAt DateTime @default(now())
+
+  responses VolunteerResponse[]
+}
+
+// イベントリストの中の1日付(例: 9月4日、9月5日)。あとから追加できる
+model EventDay {
+  id        String   @id @default(cuid())
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId   String
+  date      DateTime @db.Date
+  comment   String?
+  createdAt DateTime @default(now())
+
+  // 時間帯などの候補(例: 午前/午後)。0件ならこの日付自体に直接○×を付ける
+  slots     EventSlot[]
+  responses VolunteerResponse[]
+}
+
+// 1日付の中の時間帯などの候補(自由テキスト)
+model EventSlot {
+  id         String   @id @default(cuid())
+  day        EventDay @relation(fields: [eventDayId], references: [id], onDelete: Cascade)
+  eventDayId String
+  label      String
+  createdAt  DateTime @default(now())
+
+  responses VolunteerResponse[]
+}
+
+model VolunteerResponse {
+  id          String         @id @default(cuid())
+  member      Member         @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId    String
+  eventDay    EventDay?      @relation(fields: [eventDayId], references: [id], onDelete: Cascade)
+  eventDayId  String?
+  eventSlot   EventSlot?     @relation(fields: [eventSlotId], references: [id], onDelete: Cascade)
+  eventSlotId String?
+  option      ResponseOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  optionId    String
+  respondedAt DateTime       @updatedAt
+
+  @@unique([memberId, eventDayId, optionId])
+  @@unique([memberId, eventSlotId, optionId])
+}
+
+// パスワード再発行用の使い捨てトークン。userId/memberIdのどちらか一方だけが
+// 設定される(主催者/参加者どちらのアカウントかをこの1テーブルで表す)。
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  token     String    @unique
+  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?
+  member    Member?   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId  String?
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+}

@@ -1,0 +1,1 @@
+ALTER TABLE `EventDay` ADD COLUMN `comment` VARCHAR(191) NULL;
