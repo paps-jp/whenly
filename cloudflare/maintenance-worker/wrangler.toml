@@ -1,0 +1,13 @@
+name = "whenly-maintenance"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+# whenly.paps.jp 全体を Worker 経由にする(オリジンが健全なときは素通し)。
+routes = [
+  { pattern = "whenly.paps.jp/*", zone_name = "paps.jp" }
+]
+
+[vars]
+# "1" にすると、オリジンの状態に関係なくメンテナンス画面を返す(計画停止用)。
+# 切替: npx wrangler deploy --var FORCE_MAINTENANCE:1  /  解除: npx wrangler deploy
+FORCE_MAINTENANCE = "0"
