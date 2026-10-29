@@ -1,4 +1,5 @@
 import type { Messages } from "./ja";
+import { useCasesUk } from "../use-cases/uk";
 
 export const uk: Messages = {
   meta: {
@@ -327,6 +328,16 @@ export const uk: Messages = {
     solutionsHeading: "Як whenly це вирішує",
     tipsHeading: "Поради",
     relatedHeading: "Інші сценарії",
+    indexTitle: "Опитування щодо дат для будь-яких випадків | Безкоштовно, без реєстрації",
+    indexDescription: "Від вечірок і зустрічей випускників до нарад, співбесід і зборів мешканців: 44 сценарії, як швидко обрати дату зустрічі безкоштовно й без реєстрації.",
+    indexHeading: "Сценарії використання",
+    indexLead: "Приватні зустрічі, робочі наради та співбесіди, шкільні й районні заходи. У будь-якому разі достатньо додати дати-кандидати й надіслати одне посилання.",
+    viewAll: "Усі сценарії",
+    groupParty: "Вечірки та сезонні зустрічі",
+    groupHobby: "Спорт, хобі та відпочинок",
+    groupCommunity: "Школа, родина та сусіди",
+    groupWork: "Робота та бізнес",
+    compareHeading: "Порівняння з іншими сервісами",
   },
   useCases: {
     nomikai: {
@@ -547,6 +558,7 @@ export const uk: Messages = {
       faq2Q: "Чи є плата?",
       faq2A: "Усі функції безкоштовні.",
     },
+    ...useCasesUk,
   },
   errors: {
     titleRequired: "Введіть назву",

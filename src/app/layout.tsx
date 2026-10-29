@@ -7,10 +7,12 @@ import { I18nProvider } from "@/lib/i18n/client";
 import {
   DEFAULT_LOCALE,
   EYECATCH_SIZE,
+  FIXED_LOCALE_PATHS,
   LOCALES,
   OG_LOCALES,
   eyecatchPath,
   getMessages,
+  isNoindexPublicPath,
   isPublicPath,
   isRTL,
   localizedPath,
@@ -47,9 +49,12 @@ export async function generateMetadata(): Promise<Metadata> {
   const m = getMessages(locale);
   const pathname = await getRequestPathname();
 
-  // 公開ページだけ、言語別URL(/en など)を canonical / hreflang として出す。
+  // 操作用の薄いページ(/start)とログイン系は noindex にし、hreflang も出さない。
+  const noindex = !!pathname && isNoindexPublicPath(pathname);
+
+  // 検索対象の公開ページだけ、言語別URL(/en など)を canonical / hreflang として出す。
   const alternates =
-    pathname && isPublicPath(pathname)
+    pathname && isPublicPath(pathname) && !noindex
       ? {
           canonical: localizedPath(locale, pathname),
           languages: {
@@ -85,7 +90,7 @@ export async function generateMetadata(): Promise<Metadata> {
       images: [eyecatchPath(locale)],
     },
     robots: {
-      index: true,
+      index: !noindex,
       follow: true,
     },
   };
@@ -100,7 +105,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const jsonLd = [
     {
       "@context": "https://schema.org",
-      "@type": "WebApplication",
+      "@type": ["WebApplication", "SoftwareApplication"],
       name: "whenly",
       alternateName: "whenly by PAPS",
       url: baseUrl,
@@ -181,7 +186,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
                 </Link>
               ))}
             </nav>
-            <LanguageSwitcher locale={locale} pathname={pathname} label={m.common.language} />
+            {/* 言語固定ページ(運営情報・比較)では切替先がないので言語切替を出さない */}
+            {!(pathname in FIXED_LOCALE_PATHS) && (
+              <LanguageSwitcher locale={locale} pathname={pathname} label={m.common.language} />
+            )}
             <a
               href="https://paps.jp"
               target="_blank"

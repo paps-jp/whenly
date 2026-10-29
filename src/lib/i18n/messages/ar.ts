@@ -1,4 +1,5 @@
 import type { Messages } from "./ja";
+import { useCasesAr } from "../use-cases/ar";
 
 export const ar: Messages = {
   meta: {
@@ -326,6 +327,16 @@ export const ar: Messages = {
     solutionsHeading: "كيف يحلّها whenly",
     tipsHeading: "نصائح للاستخدام الأمثل",
     relatedHeading: "حالات استخدام أخرى",
+    indexTitle: "تنسيق المواعيد حسب الاستخدام | مجاني وبدون تسجيل دخول",
+    indexDescription: "من الحفلات ولقاءات الخريجين إلى الاجتماعات والمقابلات واجتماعات الحي: 44 حالة استخدام توضح كيف تختار أفضل موعد للجميع مجانًا وبدون تسجيل دخول.",
+    indexHeading: "تنسيق المواعيد حسب الاستخدام",
+    indexLead: "لقاءات خاصة، اجتماعات عمل ومقابلات، فعاليات مدرسية ومجتمعية. مهما كانت المناسبة، أضف المواعيد المقترحة وشارك رابطًا واحدًا لتصلك الردود.",
+    viewAll: "عرض كل حالات الاستخدام",
+    groupParty: "الحفلات واللقاءات الموسمية",
+    groupHobby: "الرياضة والهوايات والترفيه",
+    groupCommunity: "المدرسة والعائلة والحي",
+    groupWork: "العمل والأعمال",
+    compareHeading: "مقارنة مع أدوات أخرى",
   },
   useCases: {
     nomikai: {
@@ -546,6 +557,7 @@ export const ar: Messages = {
       faq2Q: "هل هناك رسوم؟",
       faq2A: "جميع الميزات مجانية.",
     },
+    ...useCasesAr,
   },
   errors: {
     titleRequired: "يرجى إدخال عنوان",

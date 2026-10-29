@@ -3,16 +3,19 @@ import Link from "next/link";
 import { AdSenseUnit } from "@/components/AdSenseUnit";
 import { StartGuestOrganizerForm } from "@/components/StartGuestOrganizerForm";
 import { IconBadge, type IconName } from "@/components/Icons";
-import { USE_CASE_ICONS } from "@/lib/use-cases";
-import { USE_CASE_SLUGS, pathForUseCase } from "@/lib/i18n";
-import { getServerMessages } from "@/lib/i18n/server";
+import { comparePagesForLocale } from "@/lib/compare";
+import { FEATURED_USE_CASES, USE_CASE_ICONS } from "@/lib/use-cases";
+import { pathForCompare, pathForUseCase } from "@/lib/i18n";
+import { getLocale, getServerMessages } from "@/lib/i18n/server";
 
 const cardClass =
   "rounded-2xl border border-slate-100 bg-white/80 p-6 text-start shadow-sm shadow-slate-200/50 backdrop-blur";
 
 export default async function Home() {
+  const locale = await getLocale();
   const m = await getServerMessages();
   const L = m.landing;
+  const compares = comparePagesForLocale(locale);
 
   const steps = [
     { title: L.step1Title, body: L.step1Body },
@@ -27,8 +30,8 @@ export default async function Home() {
     { icon: "calendar", title: L.feature5Title, body: L.feature5Body },
     { icon: "sparkles", title: L.feature6Title, body: L.feature6Body },
   ];
-  // 用途一覧は用途別ページ(/use/<slug>)へのリンク。見出しは各ページの H1 と揃える。
-  const useCases = USE_CASE_SLUGS.map((slug) => ({
+  // 用途一覧は代表的な用途別ページ(/use/<slug>)へのリンク。全 44 用途は /use に一覧がある。
+  const useCases = FEATURED_USE_CASES.map((slug) => ({
     slug,
     icon: USE_CASE_ICONS[slug],
     label: m.useCases[slug].heading,
@@ -183,13 +186,18 @@ export default async function Home() {
                 href={pathForUseCase(u.slug)}
                 className="flex items-center gap-3 rounded-xl border border-slate-100 bg-white/80 px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:border-indigo-200 hover:bg-indigo-50/50"
               >
-                <IconBadge name={u.icon} className="h-8 w-8 rounded-lg" />
+                <IconBadge name={u.icon} className="h-8 w-8 shrink-0 rounded-lg" />
                 {u.label}
                 <span aria-hidden="true" className="ms-auto text-indigo-400 rtl:rotate-180">→</span>
               </Link>
             </li>
           ))}
         </ul>
+        <p className="mt-4 text-center">
+          <Link href="/use" className="text-sm font-semibold text-indigo-600 hover:underline">
+            {m.useCasePage.viewAll} →
+          </Link>
+        </p>
       </section>
 
       {/* 安全性 */}
@@ -230,6 +238,29 @@ export default async function Home() {
           ))}
         </div>
       </section>
+
+      {/* 他ツールとの比較(その言語で用意しているものだけ) */}
+      {compares.length > 0 && (
+        <section>
+          <h2 className="text-center text-2xl font-extrabold tracking-tight text-slate-900">
+            {m.useCasePage.compareHeading}
+          </h2>
+          <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+            {compares.map((c) => (
+              <li key={c.slug}>
+                <Link
+                  href={pathForCompare(c.slug)}
+                  className="flex items-center gap-3 rounded-xl border border-slate-100 bg-white/80 px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:border-indigo-200 hover:bg-indigo-50/50"
+                >
+                  <IconBadge name="scale" className="h-8 w-8 shrink-0 rounded-lg" />
+                  {c.heading}
+                  <span aria-hidden="true" className="ms-auto text-indigo-400 rtl:rotate-180">→</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* CTA */}
       <section className="rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-600 px-6 py-10 text-center text-white shadow-lg shadow-indigo-300/40">

@@ -1,4 +1,5 @@
 import type { Messages } from "./ja";
+import { useCasesHi } from "../use-cases/hi";
 
 export const hi: Messages = {
   meta: {
@@ -327,6 +328,16 @@ export const hi: Messages = {
     solutionsHeading: "whenly इसे कैसे हल करता है",
     tipsHeading: "बेहतर इस्तेमाल के सुझाव",
     relatedHeading: "अन्य उपयोग",
+    indexTitle: "उपयोग के अनुसार शेड्यूलिंग पेज | मुफ़्त, बिना लॉगिन",
+    indexDescription: "पार्टी और रीयूनियन से लेकर मीटिंग, इंटरव्यू, पेरेंट्स मीटिंग और सोसाइटी तक: 44 उपयोगों में देखें कि बिना लॉगिन, मुफ़्त में सबके लिए सही तारीख कैसे चुनें।",
+    indexHeading: "उपयोग के अनुसार शेड्यूलिंग",
+    indexLead: "निजी मुलाक़ातें, ऑफ़िस मीटिंग और इंटरव्यू, स्कूल और मोहल्ले के कार्यक्रम। मौका कोई भी हो, संभावित तारीखें जोड़ें, एक लिंक भेजें और जवाब अपने आप इकट्ठा हो जाते हैं।",
+    viewAll: "सभी उपयोग देखें",
+    groupParty: "पार्टी और मौसमी मिलन",
+    groupHobby: "खेल, शौक और मनोरंजन",
+    groupCommunity: "स्कूल, परिवार और समुदाय",
+    groupWork: "काम और बिज़नेस",
+    compareHeading: "अन्य टूल से तुलना",
   },
   useCases: {
     nomikai: {
@@ -547,6 +558,7 @@ export const hi: Messages = {
       faq2Q: "क्या कोई शुल्क है?",
       faq2A: "सभी सुविधाएँ मुफ़्त हैं।",
     },
+    ...useCasesHi,
   },
   errors: {
     titleRequired: "कृपया शीर्षक दर्ज करें",

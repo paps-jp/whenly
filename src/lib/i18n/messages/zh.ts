@@ -1,4 +1,5 @@
 import type { Messages } from "./ja";
+import { useCasesZh } from "../use-cases/zh";
 
 export const zh: Messages = {
   meta: {
@@ -322,6 +323,16 @@ export const zh: Messages = {
     solutionsHeading: "whenly 这样帮你解决",
     tipsHeading: "使用小技巧",
     relatedHeading: "其他使用场景",
+    indexTitle: "按用途查看日程安排页面｜免费·无需登录",
+    indexDescription: "从聚餐、年会到会议、面试、家长会、社区活动，按 44 种用途介绍日程安排与出席统计的用法。全部无需登录、免费使用。",
+    indexHeading: "按用途查看日程安排",
+    indexLead: "从聚餐、同学会等私人聚会，到会议、面试等工作场景，再到家长会、社区活动。无论什么用途，只需发送登记了候选日期的链接，出席情况就会自动汇总。",
+    viewAll: "查看全部用途",
+    groupParty: "聚餐·派对·节日聚会",
+    groupHobby: "运动·兴趣·休闲",
+    groupCommunity: "学校·家庭·社区",
+    groupWork: "工作·商务",
+    compareHeading: "与其他工具的比较",
   },
   useCases: {
     nomikai: {
@@ -542,6 +553,7 @@ export const zh: Messages = {
       faq2Q: "需要付费吗？",
       faq2A: "所有功能均可免费使用。",
     },
+    ...useCasesZh,
   },
   errors: {
     titleRequired: "请输入标题",

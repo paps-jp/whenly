@@ -1,4 +1,5 @@
 import type { Messages } from "./ja";
+import { useCasesEs } from "../use-cases/es";
 
 export const es: Messages = {
   meta: {
@@ -329,6 +330,16 @@ export const es: Messages = {
     solutionsHeading: "Así lo resuelve whenly",
     tipsHeading: "Consejos para sacarle partido",
     relatedHeading: "Otros casos de uso",
+    indexTitle: "Encuestas de fechas por caso de uso | Gratis, sin registro",
+    indexDescription: "De cenas y reencuentros a reuniones, entrevistas y juntas vecinales: 44 casos de uso para encontrar la mejor fecha para todos, gratis y sin registro.",
+    indexHeading: "Casos de uso",
+    indexLead: "Quedadas privadas, reuniones de trabajo y entrevistas, eventos escolares y vecinales. Sea cual sea la ocasión, añade fechas candidatas, comparte un enlace y las respuestas llegan solas.",
+    viewAll: "Ver todos los casos de uso",
+    groupParty: "Fiestas y encuentros de temporada",
+    groupHobby: "Deporte, aficiones y ocio",
+    groupCommunity: "Escuela, familia y comunidad",
+    groupWork: "Trabajo y negocios",
+    compareHeading: "Comparativa con otras herramientas",
   },
   useCases: {
     nomikai: {
@@ -549,6 +560,7 @@ export const es: Messages = {
       faq2Q: "¿Tiene algún coste?",
       faq2A: "Todas las funciones son gratuitas.",
     },
+    ...useCasesEs,
   },
   errors: {
     titleRequired: "Introduce un título",

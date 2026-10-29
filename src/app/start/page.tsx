@@ -3,9 +3,16 @@ import type { Metadata } from "next";
 import { StartGuestOrganizerForm } from "@/components/StartGuestOrganizerForm";
 import { getServerMessages } from "@/lib/i18n/server";
 
+// ボタン 1 つの操作用ページなので検索結果には出さない(noindex)。
+// OGP はトップの文言ではなくこのページの内容に合わせる。
 export async function generateMetadata(): Promise<Metadata> {
   const m = await getServerMessages();
-  return { title: m.start.metaTitle, description: m.start.metaDescription };
+  return {
+    title: m.start.metaTitle,
+    description: m.start.metaDescription,
+    robots: { index: false, follow: true },
+    openGraph: { title: `${m.start.metaTitle} | whenly`, description: m.start.metaDescription },
+  };
 }
 
 export default async function StartPage() {

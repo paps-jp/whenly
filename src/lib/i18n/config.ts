@@ -48,6 +48,7 @@ export const OG_LOCALES: Record<Locale, string> = {
 export const PUBLIC_PATHS = [
   "/",
   "/start",
+  "/use",
   "/login",
   "/signup",
   "/forgot-password",
@@ -57,7 +58,8 @@ export const PUBLIC_PATHS = [
 ] as const;
 
 // 用途別ランディング(/use/<slug>)。辞書の useCases のキーと一致させる。
-export const USE_CASE_SLUGS = [
+// CORE は messages/<locale>.ts に、EXTRA は use-cases/<locale>.ts に本文を置く。
+export const CORE_USE_CASE_SLUGS = [
   "nomikai",
   "dousoukai",
   "nijikai",
@@ -68,6 +70,53 @@ export const USE_CASE_SLUGS = [
   "lesson",
 ] as const;
 
+export const EXTRA_USE_CASE_SLUGS = [
+  // 飲み会・パーティー
+  "bounenkai",
+  "shinnenkai",
+  "hanami",
+  "bbq",
+  "hanabi",
+  "christmas",
+  "birthday",
+  "joshikai",
+  "lunch",
+  "online",
+  "uchiage",
+  // スポーツ・趣味・レジャー
+  "futsal",
+  "golf",
+  "baseball",
+  "tennis",
+  "bowling",
+  "camp",
+  "ski",
+  "trip",
+  "hiking",
+  "band",
+  "boardgame",
+  // 学校・家族・地域
+  "bukatsu",
+  "hogoshakai",
+  "kodomokai",
+  "jichikai",
+  "family",
+  "obkai",
+  "happyoukai",
+  // 仕事
+  "uchiawase",
+  "mensetsu",
+  "shift",
+  "study",
+  "seminar",
+  "workshop",
+  "project",
+] as const;
+
+export const USE_CASE_SLUGS = [...CORE_USE_CASE_SLUGS, ...EXTRA_USE_CASE_SLUGS] as const;
+
+export type CoreUseCaseSlug = (typeof CORE_USE_CASE_SLUGS)[number];
+export type ExtraUseCaseSlug = (typeof EXTRA_USE_CASE_SLUGS)[number];
 export type UseCaseSlug = (typeof USE_CASE_SLUGS)[number];
 
 export function isUseCaseSlug(value: string): value is UseCaseSlug {
@@ -83,6 +132,60 @@ export const INDEXABLE_PATHS: readonly string[] = [
   ...PUBLIC_PATHS,
   ...USE_CASE_SLUGS.map(pathForUseCase),
 ];
+
+// 言語別URLは提供するが、検索結果に出す価値が薄いので noindex にし、
+// hreflang / sitemap からも外す公開ページ(操作用の薄いページ・ログイン系)。
+export const NOINDEX_PUBLIC_PATHS: readonly string[] = [
+  "/start",
+  "/login",
+  "/signup",
+  "/forgot-password",
+  "/member/login",
+  "/member/signup",
+  "/member/forgot-password",
+];
+
+export function isNoindexPublicPath(pathname: string): boolean {
+  return NOINDEX_PUBLIC_PATHS.includes(pathname);
+}
+
+// 他ツールとの比較ページ(/compare/<slug>)。対象ツールの市場に合わせて言語を固定し、
+// 言語プレフィックス付きURLや hreflang は出さない。
+export const COMPARE_SLUGS = [
+  "chouseisan",
+  "densuke",
+  "line-schedule",
+  "when2meet",
+  "doodle",
+] as const;
+
+export type CompareSlug = (typeof COMPARE_SLUGS)[number];
+
+export const COMPARE_LOCALES: Record<CompareSlug, Locale> = {
+  chouseisan: "ja",
+  densuke: "ja",
+  "line-schedule": "ja",
+  when2meet: "en",
+  doodle: "en",
+};
+
+export function isCompareSlug(value: string): value is CompareSlug {
+  return (COMPARE_SLUGS as readonly string[]).includes(value);
+}
+
+export function pathForCompare(slug: CompareSlug): string {
+  return `/compare/${slug}`;
+}
+
+// 表示言語を固定するページ。proxy が Cookie / Accept-Language より優先して適用する。
+// 運営情報ページは日本語のみ、比較ページは対象ツールの言語で提供する。
+export const FIXED_LOCALE_PATHS: Readonly<Record<string, Locale>> = {
+  "/about": "ja",
+  "/security": "ja",
+  "/privacy": "ja",
+  "/terms": "ja",
+  ...Object.fromEntries(COMPARE_SLUGS.map((slug) => [pathForCompare(slug), COMPARE_LOCALES[slug]])),
+};
 
 // 言語別のアイキャッチ画像(トップの hero と OGP で共用、1600x840)。
 export function eyecatchPath(locale: Locale): string {

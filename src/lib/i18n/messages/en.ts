@@ -1,16 +1,22 @@
 import type { Messages } from "./ja";
+import { useCasesEn } from "../use-cases/en";
 
 export const en: Messages = {
   meta: {
-    siteTitle: "whenly | Free group scheduling & RSVP tool, no login required",
+    siteTitle: "whenly | Free meeting poll to find the best time to meet, no login",
     siteDescription:
-      "Find the best date for parties, reunions, club meetups and meetings without any sign-up. Organizers create an event with one click, participants open the link and pick ○△×. Supports time slots per date, calendar sync and printing. Free forever.",
+      "Create a free availability poll in seconds, no sign-up for organizers or participants. Share one link, everyone picks ○△× for each candidate date, and the best time to meet is tallied instantly. Time slots, calendar sync and printing included.",
     keywords: [
-      "scheduling",
-      "attendance",
-      "RSVP",
-      "scheduling app",
+      "meeting poll",
+      "availability poll",
+      "find the best time to meet",
+      "group scheduling",
+      "scheduling poll",
       "no login",
+      "no sign-up",
+      "when2meet alternative",
+      "doodle alternative",
+      "RSVP",
       "party organizer",
       "reunion",
       "wedding after-party",
@@ -245,9 +251,9 @@ export const en: Messages = {
     answered: "Answered {answered}/{total}",
   },
   landing: {
-    heroTitle: "Free group scheduling and RSVP tool you can use right now, no login required",
+    heroTitle: "Find the best time to meet with a free meeting poll, no login required",
     heroLead:
-      "The organizer proposes dates, participants answer with ○△×. That's it. Works for parties, reunions, wedding after-parties, welcome and farewell parties, clubs, meetings, and anything else that needs a date and a headcount.",
+      "Propose a few candidate dates, share one link, and everyone marks their availability with ○△×. That's it. Works for parties, reunions, club meetups, team meetings, and anything else that needs a date and a headcount.",
     heroCta: "Create an event for free",
     heroNote: "No sign-up, nothing to install. Share your candidate dates in about 30 seconds.",
     howHeading: "How it works: 3 steps",
@@ -327,6 +333,16 @@ export const en: Messages = {
     solutionsHeading: "How whenly solves it",
     tipsHeading: "Tips",
     relatedHeading: "Other use cases",
+    indexTitle: "Scheduling polls by use case | Free, no login",
+    indexDescription: "From parties and reunions to meetings, interviews and community groups: 44 use cases showing how to find the best time to meet with a free meeting poll, no login required.",
+    indexHeading: "Scheduling by use case",
+    indexLead: "Private get-togethers, work meetings and interviews, school and community events. Whatever the occasion, add candidate dates, share one link, and the answers come in.",
+    viewAll: "See all use cases",
+    groupParty: "Parties & seasonal get-togethers",
+    groupHobby: "Sports, hobbies & leisure",
+    groupCommunity: "School, family & community",
+    groupWork: "Work & business",
+    compareHeading: "Compared with other tools",
   },
   useCases: {
     nomikai: {
@@ -547,6 +563,7 @@ export const en: Messages = {
       faq2Q: "Is there a fee?",
       faq2A: "All features are free.",
     },
+    ...useCasesEn,
   },
   errors: {
     titleRequired: "Please enter a title",

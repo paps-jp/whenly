@@ -1,4 +1,5 @@
 import type { Messages } from "./ja";
+import { useCasesKo } from "../use-cases/ko";
 
 export const ko: Messages = {
   meta: {
@@ -322,6 +323,16 @@ export const ko: Messages = {
     solutionsHeading: "whenly라면 이렇게 해결됩니다",
     tipsHeading: "잘 쓰는 요령",
     relatedHeading: "다른 용도로도 쓸 수 있습니다",
+    indexTitle: "용도별 일정 조율 페이지 모음 | 무료·로그인 불필요",
+    indexDescription: "회식·송년회부터 회의·면접·학부모회·자치회까지, 44가지 용도별로 일정 조율과 참석 확인 방법을 소개합니다. 모두 로그인 없이 무료로 사용할 수 있습니다.",
+    indexHeading: "용도별로 보는 일정 조율",
+    indexLead: "회식이나 동창회 같은 사적인 모임부터 회의·면접 같은 업무, 학부모회·자치회 같은 지역 활동까지. 어떤 용도든 후보 날짜를 등록한 URL을 보내기만 하면 참석 여부가 모입니다.",
+    viewAll: "모든 용도 보기",
+    groupParty: "회식·파티·계절 모임",
+    groupHobby: "스포츠·취미·레저",
+    groupCommunity: "학교·가족·지역",
+    groupWork: "업무·비즈니스",
+    compareHeading: "다른 도구와의 비교",
   },
   useCases: {
     nomikai: {
@@ -542,6 +553,7 @@ export const ko: Messages = {
       faq2Q: "요금이 드나요?",
       faq2A: "모든 기능을 무료로 쓸 수 있습니다.",
     },
+    ...useCasesKo,
   },
   errors: {
     titleRequired: "제목을 입력해 주세요",

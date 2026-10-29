@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import {
   DEFAULT_LOCALE,
+  FIXED_LOCALE_PATHS,
   LOCALE_COOKIE,
   LOCALE_HEADER,
   PATHNAME_HEADER,
@@ -61,7 +62,9 @@ export function proxy(request: NextRequest) {
     }
   }
 
+  // 言語固定ページ(運営情報・比較ページ)は訪問者の設定にかかわらずその言語で出す。
   const locale: Locale =
+    FIXED_LOCALE_PATHS[pathname] ??
     prefixLocale ??
     (isLocale(cookieLocale) ? cookieLocale : null) ??
     detectLocale(request.headers.get("accept-language")) ??

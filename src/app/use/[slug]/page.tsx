@@ -4,7 +4,8 @@ import type { Metadata } from "next";
 import { StartGuestOrganizerForm } from "@/components/StartGuestOrganizerForm";
 import { AdSenseUnit } from "@/components/AdSenseUnit";
 import { Icon, IconBadge } from "@/components/Icons";
-import { USE_CASE_ICONS } from "@/lib/use-cases";
+import { comparePagesForLocale } from "@/lib/compare";
+import { USE_CASE_GROUPS, USE_CASE_ICONS, groupOfUseCase } from "@/lib/use-cases";
 import {
   EYECATCH_SIZE,
   USE_CASE_SLUGS,
@@ -12,6 +13,7 @@ import {
   getMessages,
   isUseCaseSlug,
   localizedPath,
+  pathForCompare,
   pathForUseCase,
 } from "@/lib/i18n";
 import { getLocale } from "@/lib/i18n/server";
@@ -68,7 +70,13 @@ export default async function UseCasePage({
     { q: c.faq1Q, a: c.faq1A },
     { q: c.faq2Q, a: c.faq2A },
   ];
-  const related = USE_CASE_SLUGS.filter((s) => s !== slug);
+  // 関連ページは同じ分類のものを優先し、足りなければ他の分類から補って 8 件にする。
+  const sameGroup = USE_CASE_GROUPS[groupOfUseCase(slug)].filter((s) => s !== slug);
+  const related = [
+    ...sameGroup,
+    ...USE_CASE_SLUGS.filter((s) => s !== slug && !sameGroup.includes(s)),
+  ].slice(0, 8);
+  const compares = comparePagesForLocale(locale);
 
   const pageUrl = `${baseUrl}${localizedPath(locale, pathForUseCase(slug))}`;
   const jsonLd = [
@@ -223,13 +231,37 @@ export default async function UseCasePage({
                 href={pathForUseCase(s)}
                 className="flex items-center gap-3 rounded-xl border border-slate-100 bg-white/80 px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:border-indigo-200 hover:bg-indigo-50/50"
               >
-                <IconBadge name={USE_CASE_ICONS[s]} className="h-8 w-8 rounded-lg" />
+                <IconBadge name={USE_CASE_ICONS[s]} className="h-8 w-8 shrink-0 rounded-lg" />
                 {m.useCases[s].heading}
               </Link>
             </li>
           ))}
         </ul>
+        <p className="mt-4 text-center">
+          <Link href="/use" className="text-sm font-semibold text-indigo-600 hover:underline">
+            {P.viewAll} →
+          </Link>
+        </p>
       </section>
+
+      {compares.length > 0 && (
+        <section>
+          <h2 className="text-center text-lg font-bold text-slate-900">{P.compareHeading}</h2>
+          <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+            {compares.map((c) => (
+              <li key={c.slug}>
+                <Link
+                  href={pathForCompare(c.slug)}
+                  className="flex items-center gap-3 rounded-xl border border-slate-100 bg-white/80 px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:border-indigo-200 hover:bg-indigo-50/50"
+                >
+                  <IconBadge name="scale" className="h-8 w-8 shrink-0 rounded-lg" />
+                  {c.heading}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <AdSenseUnit />
     </main>

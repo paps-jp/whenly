@@ -1,22 +1,18 @@
 import type { MetadataRoute } from "next";
 import {
+  COMPARE_SLUGS,
   INDEXABLE_PATHS,
   LOCALES,
+  NOINDEX_PUBLIC_PATHS,
   localizedPath,
+  pathForCompare,
 } from "@/lib/i18n/config";
 
 const baseUrl = process.env.APP_BASE_URL ?? "https://whenly.paps.jp";
 
-// ログイン・登録系はアカウント有無で内容が変わらず検索結果に出す価値が薄いため、
-// サイトマップからは除外する(各ページには robots: { index: false } も設定済み)。
-const SITEMAP_EXCLUDED_PATHS: readonly string[] = [
-  "/login",
-  "/signup",
-  "/forgot-password",
-  "/member/login",
-  "/member/signup",
-  "/member/forgot-password",
-];
+// ログイン・登録系と /start は検索結果に出す価値が薄いため noindex にしており、
+// サイトマップからも除外する(一覧は config の NOINDEX_PUBLIC_PATHS)。
+const SITEMAP_EXCLUDED_PATHS: readonly string[] = NOINDEX_PUBLIC_PATHS;
 
 // 多言語化していない単独ページ(運営情報など)。日本語URLのみで提供する。
 const STATIC_JA_PATHS: readonly string[] = ["/about", "/security", "/privacy", "/terms"];
@@ -27,7 +23,7 @@ function settings(pathname: string): {
 } {
   if (pathname === "/") return { changeFrequency: "monthly", priority: 1 };
   if (pathname.startsWith("/use/")) return { changeFrequency: "monthly", priority: 0.8 };
-  if (pathname === "/start") return { changeFrequency: "monthly", priority: 0.8 };
+  if (pathname === "/use") return { changeFrequency: "monthly", priority: 0.7 };
   return { changeFrequency: "yearly", priority: 0.3 };
 }
 
@@ -53,5 +49,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.3,
   }));
 
-  return [...localizedEntries, ...staticEntries];
+  // 比較ページは対象ツールの言語で 1 本ずつ(言語別URLなし)。
+  const compareEntries = COMPARE_SLUGS.map((slug) => ({
+    url: `${baseUrl}${pathForCompare(slug)}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...localizedEntries, ...compareEntries, ...staticEntries];
 }

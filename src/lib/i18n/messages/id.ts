@@ -1,4 +1,5 @@
 import type { Messages } from "./ja";
+import { useCasesId } from "../use-cases/id";
 
 export const id: Messages = {
   meta: {
@@ -329,6 +330,16 @@ export const id: Messages = {
     solutionsHeading: "Begini whenly menyelesaikannya",
     tipsHeading: "Tips agar makin efektif",
     relatedHeading: "Contoh penggunaan lainnya",
+    indexTitle: "Halaman atur jadwal per kebutuhan | Gratis, tanpa login",
+    indexDescription: "Dari pesta dan reuni hingga rapat, wawancara, rapat orang tua, dan RT/RW: 44 kebutuhan yang menunjukkan cara mencari tanggal terbaik untuk semua, gratis dan tanpa login.",
+    indexHeading: "Atur jadwal per kebutuhan",
+    indexLead: "Kumpul pribadi, rapat kerja dan wawancara, acara sekolah dan lingkungan. Apa pun acaranya, tambahkan tanggal kandidat, bagikan satu tautan, dan jawaban terkumpul sendiri.",
+    viewAll: "Lihat semua kebutuhan",
+    groupParty: "Pesta & kumpul musiman",
+    groupHobby: "Olahraga, hobi & rekreasi",
+    groupCommunity: "Sekolah, keluarga & lingkungan",
+    groupWork: "Kerja & bisnis",
+    compareHeading: "Perbandingan dengan alat lain",
   },
   useCases: {
     nomikai: {
@@ -549,6 +560,7 @@ export const id: Messages = {
       faq2Q: "Apakah ada biayanya?",
       faq2A: "Semua fitur gratis.",
     },
+    ...useCasesId,
   },
   errors: {
     titleRequired: "Masukkan judul",

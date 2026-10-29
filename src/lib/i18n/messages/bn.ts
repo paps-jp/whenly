@@ -1,4 +1,5 @@
 import type { Messages } from "./ja";
+import { useCasesBn } from "../use-cases/bn";
 
 export const bn: Messages = {
   meta: {
@@ -327,6 +328,16 @@ export const bn: Messages = {
     solutionsHeading: "whenly কীভাবে সমাধান করে",
     tipsHeading: "ভালোভাবে ব্যবহারের টিপস",
     relatedHeading: "অন্যান্য ব্যবহার",
+    indexTitle: "ব্যবহার অনুযায়ী সময়সূচি পেজ | বিনামূল্যে, লগইন ছাড়া",
+    indexDescription: "পার্টি ও পুনর্মিলনী থেকে মিটিং, ইন্টারভিউ, অভিভাবক সভা ও পাড়ার সভা পর্যন্ত: ৪৪টি ব্যবহারে দেখুন কীভাবে লগইন ছাড়া, বিনামূল্যে সবার জন্য সেরা তারিখ বেছে নেবেন।",
+    indexHeading: "ব্যবহার অনুযায়ী সময়সূচি",
+    indexLead: "ব্যক্তিগত আড্ডা, অফিসের মিটিং ও ইন্টারভিউ, স্কুল ও পাড়ার অনুষ্ঠান। উপলক্ষ যা-ই হোক, সম্ভাব্য তারিখ যোগ করুন, একটি লিংক পাঠান, উত্তর নিজে থেকেই জমা হবে।",
+    viewAll: "সব ব্যবহার দেখুন",
+    groupParty: "পার্টি ও মৌসুমি মিলনমেলা",
+    groupHobby: "খেলাধুলা, শখ ও অবসর",
+    groupCommunity: "স্কুল, পরিবার ও সমাজ",
+    groupWork: "কাজ ও ব্যবসা",
+    compareHeading: "অন্য টুলের সঙ্গে তুলনা",
   },
   useCases: {
     nomikai: {
@@ -547,6 +558,7 @@ export const bn: Messages = {
       faq2Q: "কোনো খরচ আছে কি?",
       faq2A: "সব সুবিধাই বিনামূল্যে।",
     },
+    ...useCasesBn,
   },
   errors: {
     titleRequired: "অনুগ্রহ করে একটি শিরোনাম লিখুন",

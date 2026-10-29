@@ -1,14 +1,19 @@
+import { useCasesJa } from "../use-cases/ja";
 // 翻訳の原本。他言語のファイルはこのオブジェクトの型(Messages)に合わせる。
 // {name} のような波括弧はプレースホルダー(interpolate で置換される)。
 export const ja = {
   meta: {
-    siteTitle: "whenly | ログイン不要・無料の日程調整＆出欠管理ツール",
+    siteTitle: "whenly | 無料の日程調整・出欠表ツール｜ログイン不要で今すぐ使える",
     siteDescription:
       "飲み会・同窓会・二次会・サークル・会議の日程調整と出欠確認を、登録もログインもなしで。主催者はボタン1つでイベント作成、参加者はURLを開いて○△×を選ぶだけ。日付だけでなく時間帯の候補も設定でき、カレンダー連携・印刷にも対応した無料ツールです。",
     keywords: [
       "日程調整",
+      "日程調整 無料",
+      "出欠表",
+      "出欠表 作成",
       "出欠管理",
       "出欠確認",
+      "日程調整 ログイン不要",
       "日程調整アプリ",
       "ログイン不要",
       "飲み会 幹事",
@@ -240,7 +245,7 @@ export const ja = {
     answered: "回答済み {answered}/{total}件",
   },
   landing: {
-    heroTitle: "ログイン不要で今すぐ使える、無料の日程調整・出欠管理ツール",
+    heroTitle: "ログイン不要で今すぐ使える、無料の日程調整・出欠表ツール",
     heroLead:
       "主催者が候補日時を決め、参加者が○△×で回答するだけ。飲み会・同窓会・結婚式二次会・歓迎会・送別会・サークル・会議など、日程調整と出欠確認が必要なあらゆる場面で使えます。",
     heroCta: "無料でイベントを作成する",
@@ -322,6 +327,16 @@ export const ja = {
     solutionsHeading: "whenlyならこう解決できます",
     tipsHeading: "うまく使うコツ",
     relatedHeading: "他の用途でも使えます",
+    indexTitle: "用途別の日程調整ページ一覧｜無料・ログイン不要",
+    indexDescription: "飲み会・忘年会から会議・面接・PTA・町内会まで、44の用途別に日程調整と出欠表の使い方を紹介。すべてログイン不要・無料で使えます。",
+    indexHeading: "用途別に見る日程調整",
+    indexLead: "飲み会や同窓会などのプライベートから、会議・面接などの仕事、PTAや町内会などの地域活動まで。どの用途でも、候補日を登録したURLを送るだけで出欠が集まります。",
+    viewAll: "すべての用途を見る",
+    groupParty: "飲み会・パーティー・季節の集まり",
+    groupHobby: "スポーツ・趣味・レジャー",
+    groupCommunity: "学校・家族・地域",
+    groupWork: "仕事・ビジネス",
+    compareHeading: "他のツールとの比較",
   },
   useCases: {
     nomikai: {
@@ -542,6 +557,7 @@ export const ja = {
       faq2Q: "料金はかかりますか？",
       faq2A: "すべての機能を無料で使えます。",
     },
+    ...useCasesJa,
   },
   errors: {
     titleRequired: "タイトルを入力してください",
